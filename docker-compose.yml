@@ -36,7 +36,7 @@ services:
       - redis
   mongo:
     image: sumglobal/rpi-mongodb:latest
-    command: --port $MONGO_PORT
+    command: /usr/bin/mongod --dbpath /data/db --journal --storageEngine=mmapv1 --port $MONGO_PORT
     env_file:
       - heos-scrobbler/mongo/.env
     restart: always
@@ -47,7 +47,7 @@ services:
   mongo-express:
     build:
       context: ./rpi-mongo-express-docker
-      dockerfile: rpi-mongo-express-docker/Dockerfile
+      dockerfile: Dockerfile
     env_file:
       - heos-scrobbler/mongo-express/.env
     restart: always
