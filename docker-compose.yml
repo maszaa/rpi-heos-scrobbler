@@ -43,7 +43,7 @@ services:
     network_mode: "host"
     volumes:
       - mongo_data:/data/db
-      - ./mongo/initialize.js:/usr/src/initialize.js
+      - ./heos-scrobbler/mongo/initialize.js:/usr/src/initialize.js
   mongo-express:
     build:
       context: ./rpi-mongo-express-docker
