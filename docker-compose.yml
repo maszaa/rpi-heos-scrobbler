@@ -1,0 +1,65 @@
+version: "3"
+
+services:
+  heos-track-listener:
+    build:
+      context: .
+      dockerfile: heos-track-listener.Dockerfile
+    image: heos-track-listener:latest
+    command: npm start
+    environment:
+      MONGO_DB: heosScrobbler
+      REDIS_CHANNEL: heosScrobbler
+    env_file:
+      - heos-scrobbler/heos-track-listener/.env
+    restart: always
+    network_mode: "host"
+    depends_on:
+      - mongo
+      - redis
+  heos-track-scrobbler:
+    build:
+      context: .
+      dockerfile: heos-track-scrobbler.Dockerfile
+    image: heos-track-scrobbler:latest
+    command: python main.py
+    environment:
+      PYTHONUNBUFFERED: 1
+      MONGO_DB: heosScrobbler
+      REDIS_CHANNEL: heosScrobbler
+    env_file:
+      - heos-scrobbler/heos-track-scrobbler/.env
+    restart: always
+    network_mode: "host"
+    depends_on:
+      - mongo
+      - redis
+  mongo:
+    image: sumglobal/rpi-mongodb:latest
+    command: --port $MONGO_PORT
+    env_file:
+      - heos-scrobbler/mongo/.env
+    restart: always
+    network_mode: "host"
+    volumes:
+      - mongo_data:/data/db
+      - ./mongo/initialize.js:/usr/src/initialize.js
+  mongo-express:
+    build:
+      dockerfile: rpi-mongo-express/Dockerfile
+    env_file:
+      - heos-scrobbler/mongo-express/.env
+    restart: always
+    network_mode: "host"
+    depends_on:
+      - mongo
+  redis:
+    image: arm32v7/redis:5.0-alpine
+    command: --port $REDIS_PORT
+    env_file:
+      - heos-scrobbler/redis/.env
+    restart: always
+    network_mode: "host"
+
+volumes:
+  mongo_data:

@@ -1,0 +1,6 @@
+[submodule "heos-scrobbler"]
+	path = heos-scrobbler
+	url = git@github.com:maszaa/heos-scrobbler.git
+[submodule "rpi-mongo-express-docker"]
+	path = rpi-mongo-express-docker
+	url = git@github.com:maszaa/rpi-mongo-express-docker.git
