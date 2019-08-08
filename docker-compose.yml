@@ -46,7 +46,8 @@ services:
       - ./mongo/initialize.js:/usr/src/initialize.js
   mongo-express:
     build:
-      dockerfile: rpi-mongo-express/Dockerfile
+      context: ./rpi-mongo-express-docker
+      dockerfile: rpi-mongo-express-docker/Dockerfile
     env_file:
       - heos-scrobbler/mongo-express/.env
     restart: always
