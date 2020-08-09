@@ -1,4 +1,4 @@
-FROM arm32v7/node:10-buster-slim
+FROM arm32v7/node:12-buster-slim
 
 WORKDIR /usr/src
 
