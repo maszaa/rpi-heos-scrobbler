@@ -3,7 +3,7 @@
 git submodule init
 git submodule update
 
-docker-compose build
+docker-compose build --parallel
 
 PROJECT_NAME=heos-scrobbler
 
